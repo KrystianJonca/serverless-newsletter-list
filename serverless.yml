@@ -12,6 +12,7 @@ provider:
     - Effect: Allow
       Action:
         - dynamodb:*
+        - ses:*
       Resource: '*'
 
 functions:
@@ -31,15 +32,14 @@ functions:
     handler: lambdas/emailAddress/delete.handler
     events:
       - httpApi:
-          path: /email-address/delete
+          path: /email-address/delete/{email}
           method: delete
-
-  # sendEmail:
-  #   handler: src/sendEmail.handler
-  #   events:
-  #     - httpApi:
-  #         path: /send-email
-  #         method: post
+  sendEmail:
+    handler: lambdas/sendEmail.handler
+    events:
+      - httpApi:
+          path: /send-email
+          method: post
   # uploadImage:
   #   handler: src/uploadImage.handler
   #   events:
