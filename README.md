@@ -1,5 +1,8 @@
 # Serverless Newsletter List HTTP Api on AWS
 
+Application that uses serverless functions to manage your newsletter list. Add or delete users to it, send new emails to them and also upload image files.
+Tech Stack: Serverless, Node.js, AWS Lambda, AWS S3, AWS SES, DynamoDB.
+
 <!-- title: 'AWS Simple HTTP Endpoint example in NodeJS'
 description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
 layout: Doc
