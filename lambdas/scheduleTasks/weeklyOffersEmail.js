@@ -2,6 +2,14 @@ const AWS = require('aws-sdk');
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const SES = new AWS.SES();
 
+const htmlEmail = `
+  <html>
+    <body>
+      <h1>This week's top offers:</h1>
+    </body>
+  </html>
+`;
+
 const handler = async (event) => {
   let addresses = [];
 
@@ -23,10 +31,10 @@ const handler = async (event) => {
     },
     Message: {
       Body: {
-        Text: { Data: "Here are this week's top offers:" },
+        Html: { Data: htmlEmail },
       },
       Subject: {
-        Data: subject,
+        Data: 'Weekly Top Offers',
       },
     },
     Source: 'krystianjonca17@gmail.com',
@@ -36,13 +44,17 @@ const handler = async (event) => {
     await SES.sendEmail(params).promise();
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Weekly offers email sent successfully' }),
+      body: JSON.stringify({
+        message: 'Weekly offers email sent successfully',
+      }),
     };
   } catch (error) {
     console.log(error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Error while sending weekly offers email.' }),
+      body: JSON.stringify({
+        error: 'Error while sending weekly offers email.',
+      }),
     };
   }
 };
