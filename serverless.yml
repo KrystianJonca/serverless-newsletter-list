@@ -12,6 +12,7 @@ provider:
     - Effect: Allow
       Action:
         - dynamodb:*
+        - s3:*
         - ses:*
       Resource: '*'
 
@@ -75,3 +76,7 @@ resources:
           - AttributeName: email
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+    PhotosBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: serverless-newsletter-list-photos-s3-bucket
