@@ -29,6 +29,7 @@ const handler = async (event) => {
       body: JSON.stringify({ message: 'Email deleted.' }),
     };
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Error while deleting the email.' }),

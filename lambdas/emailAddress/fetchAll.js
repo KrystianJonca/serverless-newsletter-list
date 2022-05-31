@@ -12,6 +12,7 @@ const handler = async (event) => {
       body: JSON.stringify({ data: emails }),
     };
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Error while fetching emails.' }),
