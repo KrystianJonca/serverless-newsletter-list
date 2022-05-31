@@ -19,27 +19,31 @@ functions:
   addEmailAddress:
     handler: lambdas/emailAddress/add.handler
     events:
-      - httpApi:
+      - http:
           path: /email-address/add
           method: post
+          private: true
   fetchAllEmailAddresses:
     handler: lambdas/emailAddress/fetchAll.handler
     events:
-      - httpApi:
+      - http:
           path: /email-address/fetch-all
           method: get
+          private: true
   deleteEmailAddress:
     handler: lambdas/emailAddress/delete.handler
     events:
-      - httpApi:
+      - http:
           path: /email-address/delete/{email}
           method: delete
+          private: true
   sendEmail:
     handler: lambdas/sendEmail.handler
     events:
-      - httpApi:
+      - http:
           path: /send-email
           method: post
+          private: true
   sendWeeklyOffersEmail:
     handler: lambdas/scheduleTasks/weeklyOffersEmail.handler
     events:
@@ -50,6 +54,13 @@ functions:
   #     - httpApi:
   #         path: /upload-image
   #         method: post
+
+plugins:
+  - serverless-add-api-key
+
+custom:
+  apiKeys:
+    - name: AdminApiKey
 
 resources:
   Resources:
