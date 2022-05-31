@@ -40,6 +40,10 @@ functions:
       - httpApi:
           path: /send-email
           method: post
+  sendWeeklyOffersEmail:
+    handler: lambdas/scheduleTasks/weeklyOffersEmail.handler
+    events:
+      - schedule: cron(0 9 ? * 7 *)
   # uploadImage:
   #   handler: src/uploadImage.handler
   #   events:
