@@ -23,6 +23,7 @@ functions:
       - http:
           path: /email-address/add
           method: post
+          cors: true
           private: true
   fetchAllEmailAddresses:
     handler: lambdas/emailAddress/fetchAll.handler
@@ -30,6 +31,7 @@ functions:
       - http:
           path: /email-address/fetch-all
           method: get
+          cors: true
           private: true
   deleteEmailAddress:
     handler: lambdas/emailAddress/delete.handler
@@ -37,6 +39,7 @@ functions:
       - http:
           path: /email-address/delete/{email}
           method: delete
+          cors: true
           private: true
   sendEmail:
     handler: lambdas/sendEmail.handler
@@ -44,6 +47,7 @@ functions:
       - http:
           path: /send-email
           method: post
+          cors: true
           private: true
   sendWeeklyOffersEmail:
     handler: lambdas/scheduleTasks/weeklyOffersEmail.handler
@@ -56,6 +60,7 @@ functions:
           path: /upload-image
           method: post
           cors: true
+          private: true
 
 plugins:
   - serverless-add-api-key
