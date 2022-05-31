@@ -1,0 +1,57 @@
+org: krystiannn
+app: serverless-newsletter-list
+service: serverless-newsletter-list
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  region: eu-central-1
+
+functions:
+  addEmailAddress:
+    handler: src/emailAddress/add.handler
+    events:
+      - httpApi:
+          path: /email-address/add
+          method: post
+          addEmailAddress:
+  deleteEmailAddress:
+    handler: src/emailAddress/delete.handler
+    events:
+      - httpApi:
+          path: /email-address/delete
+          method: delete
+  fetchAllEmailAddresses:
+    handler: src/emailAddress/fetch.handler
+    events:
+      - httpApi:
+          path: /email-address/fetch-all
+          method: get
+  sendEmail:
+    handler: src/sendEmail.handler
+    events:
+      - httpApi:
+          path: /send-email
+          method: post
+  uploadImage:
+    handler: src/uploadImage.handler
+    events:
+      - httpApi:
+          path: /upload-image
+          method: post
+
+resources:
+  Resources:
+    EmailsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: EmailsTable
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
