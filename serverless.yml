@@ -13,8 +13,6 @@ provider:
       Action:
         - dynamodb:*
       Resource: '*'
-  enviroment:
-    TABLE_NAME: EmailsTable
 
 functions:
   addEmailAddress:
@@ -23,18 +21,19 @@ functions:
       - httpApi:
           path: /email-address/add
           method: post
+  fetchAllEmailAddresses:
+    handler: lambdas/emailAddress/fetchAll.handler
+    events:
+      - httpApi:
+          path: /email-address/fetch-all
+          method: get
   # deleteEmailAddress:
   #   handler: src/emailAddress/delete.handler
   #   events:
   #     - httpApi:
   #         path: /email-address/delete
   #         method: delete
-  # fetchAllEmailAddresses:
-  #   handler: src/emailAddress/fetch.handler
-  #   events:
-  #     - httpApi:
-  #         path: /email-address/fetch-all
-  #         method: get
+
   # sendEmail:
   #   handler: src/sendEmail.handler
   #   events:
