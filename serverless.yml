@@ -49,12 +49,13 @@ functions:
     handler: lambdas/scheduleTasks/weeklyOffersEmail.handler
     events:
       - schedule: cron(0 9 ? * 7 *)
-  # uploadImage:
-  #   handler: src/uploadImage.handler
-  #   events:
-  #     - httpApi:
-  #         path: /upload-image
-  #         method: post
+  uploadImage:
+    handler: lambdas/uploadImage.handler
+    events:
+      - http:
+          path: /upload-image
+          method: post
+          cors: true
 
 plugins:
   - serverless-add-api-key
@@ -80,3 +81,4 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: serverless-newsletter-list-photos-s3-bucket
+        AccessControl: PublicRead
