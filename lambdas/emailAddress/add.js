@@ -1,12 +1,19 @@
 const AWS = require('aws-sdk');
-const { validate } = require('email-validator');
-
 const documentClient = new AWS.DynamoDB.DocumentClient();
+
+const validateEmail = (email) => {
+  let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  if (email.match(regexEmail)) 
+    return true; 
+  else 
+    return false; 
+};
 
 const handler = async (event) => {
   const { email } = JSON.parse(event.body);
 
-  if (!email || !validate(email)) {
+  if (!email || !validateEmail(email)) {
     return {
       statusCode: 400,
       body: JSON.stringify({
