@@ -27,12 +27,12 @@ functions:
       - httpApi:
           path: /email-address/fetch-all
           method: get
-  # deleteEmailAddress:
-  #   handler: src/emailAddress/delete.handler
-  #   events:
-  #     - httpApi:
-  #         path: /email-address/delete
-  #         method: delete
+  deleteEmailAddress:
+    handler: lambdas/emailAddress/delete.handler
+    events:
+      - httpApi:
+          path: /email-address/delete
+          method: delete
 
   # sendEmail:
   #   handler: src/sendEmail.handler
