@@ -7,7 +7,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
-  region: eu-central-1
+  region: ${self:custom.region}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -15,6 +15,10 @@ provider:
         - s3:*
         - ses:*
       Resource: '*'
+  environment:
+    tableName: ${self:custom.tableName}
+    bucketName: ${self:custom.bucketName}
+    region: ${self:custom.region}
 
 functions:
   addEmailAddress:
@@ -65,16 +69,12 @@ functions:
 plugins:
   - serverless-add-api-key
 
-custom:
-  apiKeys:
-    - name: AdminApiKey
-
 resources:
   Resources:
     EmailsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: EmailsTable
+        TableName: ${self:custom.tableName}
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S
@@ -85,5 +85,12 @@ resources:
     PhotosBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: serverless-newsletter-list-photos-s3-bucket
+        BucketName: ${self:custom.bucketName}
         AccessControl: PublicRead
+
+custom:
+  apiKeys:
+    - name: AdminApiKey
+  tableName: EmailsTable
+  bucketName: serverless-newsletter-list-photos-s3-bucket
+  region: eu-central-1

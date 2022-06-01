@@ -29,7 +29,7 @@ const handler = async (event) => {
   try {
     await documentClient
       .put({
-        TableName: 'EmailsTable',
+        TableName: process.env.tableName,
         Item: newEmail,
       })
       .promise();

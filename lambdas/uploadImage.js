@@ -51,12 +51,12 @@ const handler = async (event) => {
       Body: buffer,
       Key: key,
       ContentType: mime,
-      Bucket: 'serverless-newsletter-list-photos-s3-bucket',
+      Bucket: process.env.bucketName,
       ACL: 'public-read',
     }).promise();
 
-    const url = `https://serverless-newsletter-list-photos-s3-bucket.s3-eu-central-1.amazonaws.com/${key}`;
-    console.log(key);
+    const url = `https://${process.env.bucketName}.s3-${process.env.region}.amazonaws.com/${key}`;
+    console.log('New image:', url);
     return {
       statusCode: 200,
       body: JSON.stringify({ imageURL: url }),

@@ -21,7 +21,7 @@ const handler = async (event) => {
 
   try {
     await documentClient
-      .delete({ TableName: 'EmailsTable', Key: { email } })
+      .delete({ TableName: process.env.tableName, Key: { email } })
       .promise();
 
     return {

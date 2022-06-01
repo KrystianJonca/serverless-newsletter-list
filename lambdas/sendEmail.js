@@ -17,7 +17,7 @@ const handler = async (event) => {
 
   try {
     const { Items } = await documentClient
-      .scan({ TableName: 'EmailsTable' })
+      .scan({ TableName: process.env.tableName })
       .promise();
     addresses = Items.map((item) => item.email);
   } catch (error) {

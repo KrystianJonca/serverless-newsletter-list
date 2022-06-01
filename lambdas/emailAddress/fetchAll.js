@@ -4,7 +4,7 @@ const documentClient = new AWS.DynamoDB.DocumentClient();
 const handler = async (event) => {
   try {
     const { Items: emails } = await documentClient
-      .scan({ TableName: 'EmailsTable' })
+      .scan({ TableName: process.env.tableName })
       .promise();
 
     return {
