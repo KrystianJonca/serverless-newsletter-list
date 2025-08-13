@@ -1,6 +1,10 @@
-const AWS = require('aws-sdk');
-const documentClient = new AWS.DynamoDB.DocumentClient();
-const SES = new AWS.SES();
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, ScanCommand } = require('@aws-sdk/lib-dynamodb');
+const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
+
+const dynamoClient = new DynamoDBClient({ region: process.env.region });
+const documentClient = DynamoDBDocumentClient.from(dynamoClient);
+const sesClient = new SESClient({ region: process.env.region });
 
 const handler = async (event) => {
   const { from, subject, text } = JSON.parse(event.body);
@@ -16,9 +20,9 @@ const handler = async (event) => {
   let addresses = [];
 
   try {
-    const { Items } = await documentClient
-      .scan({ TableName: process.env.tableName })
-      .promise();
+    const { Items } = await documentClient.send(new ScanCommand({
+      TableName: process.env.tableName
+    }));
     addresses = Items.map((item) => item.email);
   } catch (error) {
     return {
@@ -43,7 +47,7 @@ const handler = async (event) => {
   };
 
   try {
-    await SES.sendEmail(params).promise();
+    await sesClient.send(new SendEmailCommand(params));
     return {
       statusCode: 200,
       body: JSON.stringify({ message: 'Emails sent successfully' }),

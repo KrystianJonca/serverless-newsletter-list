@@ -1,8 +1,8 @@
-const AWS = require('aws-sdk');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { fromBuffer } = require('file-type');
 const { v4 } = require('uuid');
 
-const S3 = new AWS.S3();
+const s3Client = new S3Client({ region: process.env.region });
 const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const handler = async (event) => {
@@ -47,13 +47,13 @@ const handler = async (event) => {
     const id = v4();
     const key = `${id}.${ext}`;
 
-    await S3.putObject({
+    await s3Client.send(new PutObjectCommand({
       Body: buffer,
       Key: key,
       ContentType: mime,
       Bucket: process.env.bucketName,
       ACL: 'public-read',
-    }).promise();
+    }));
 
     const url = `https://${process.env.bucketName}.s3-${process.env.region}.amazonaws.com/${key}`;
     console.log('New image:', url);

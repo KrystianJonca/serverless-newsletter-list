@@ -4,18 +4,30 @@
   "description": "Serverless Newsletter List HTTP API on AWS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy",
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:prod": "serverless deploy --stage prod",
+    "offline": "serverless offline",
+    "remove": "serverless remove"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@10.14.0",
   "devDependencies": {
-    "serverless": "^3.18.2",
+    "serverless": "^4.18.0",
     "serverless-add-api-key": "^4.2.1"
   },
   "dependencies": {
-    "aws-sdk": "^2.1145.0",
-    "file-type": "^16.5.3",
-    "uuid": "^8.3.2"
+    "@aws-sdk/client-dynamodb": "^3.864.0",
+    "@aws-sdk/client-s3": "^3.864.0",
+    "@aws-sdk/client-ses": "^3.864.0",
+    "@aws-sdk/lib-dynamodb": "^3.864.0",
+    "file-type": "^21.0.0",
+    "uuid": "^11.1.0"
   }
 }

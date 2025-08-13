@@ -1,5 +1,8 @@
-const AWS = require('aws-sdk');
-const documentClient = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
+
+const client = new DynamoDBClient({ region: process.env.region });
+const documentClient = DynamoDBDocumentClient.from(client);
 
 const validateEmail = (email) => {
   let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -20,9 +23,10 @@ const handler = async (event) => {
   }
 
   try {
-    await documentClient
-      .delete({ TableName: process.env.tableName, Key: { email } })
-      .promise();
+    await documentClient.send(new DeleteCommand({
+      TableName: process.env.tableName, 
+      Key: { email }
+    }));
 
     return {
       statusCode: 200,

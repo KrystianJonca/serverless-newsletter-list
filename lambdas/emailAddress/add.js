@@ -1,5 +1,8 @@
-const AWS = require('aws-sdk');
-const documentClient = new AWS.DynamoDB.DocumentClient();
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, PutCommand } = require('@aws-sdk/lib-dynamodb');
+
+const client = new DynamoDBClient({ region: process.env.region });
+const documentClient = DynamoDBDocumentClient.from(client);
 
 const validateEmail = (email) => {
   let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -27,12 +30,10 @@ const handler = async (event) => {
   };
 
   try {
-    await documentClient
-      .put({
-        TableName: process.env.tableName,
-        Item: newEmail,
-      })
-      .promise();
+    await documentClient.send(new PutCommand({
+      TableName: process.env.tableName,
+      Item: newEmail,
+    }));
   } catch (error) {
     console.log(error);
     return {
